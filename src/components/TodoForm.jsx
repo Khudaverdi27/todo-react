@@ -1,52 +1,48 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-function TodoForm({ onSaveClick, updateTask, edit }) {
-    const [name, setName] = useState('');
+function TodoForm({ saveTodos, updateTask, edit }) {
+    const [value, setValue] = useState("");
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         if (edit) {
-            setName(edit.name);
             setIsEditing(true);
+            setValue(edit.name);
         } else {
-            setName('');
             setIsEditing(false);
+            setValue("");
         }
     }, [edit]);
 
-    const handleClick = () => {
-        if (name.trim()) {
-            if (isEditing) {
-                updateTask(name);
-                setIsEditing(false);
-            } else {
-                onSaveClick(name);
-            }
-            setName('');
-        }
-    };
+    const onSubmit = (e) => {
+        e.preventDefault();
 
-    const handleKeyDown = (e) => {
-        if (e.code === 'Enter') handleClick();
+        if (value.trim() === "") return;
+
+        if (isEditing) {
+            updateTask(value);
+            setIsEditing(false);
+        } else {
+            saveTodos(value);
+        }
+
+        setValue("");
     };
 
     return (
-        <div className="flex space-x-[10px]">
-            <input
-                value={name}
-                onKeyDown={(e) => handleKeyDown(e)}
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                className="flex-1 border px-4 h-[35px]"
-            />
-            <button
-                disabled={!name.trim()}
-                onClick={() => handleClick()}
-                className="disabled:opacity-40 bg-blue-500 rounded p-2 text-white"
-            >
-                {isEditing ? 'Update' : 'Add'}
-            </button>
-        </div>
+        <><h1 className="text-center text-xl font-bold">Your Todo App</h1>
+            <form onSubmit={(e) => onSubmit(e)} className="flex space-x-[10px]">
+                <input
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    type="text"
+                    className="flex-1 border px-4 h-[35px]"
+                />
+                <button type="submit" className="disabled:opacity-40 bg-blue-500 rounded p-2 text-white">
+                    {isEditing ? 'Update' : 'Add'}
+                </button>
+            </form>
+        </>
     );
 }
 

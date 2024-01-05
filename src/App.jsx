@@ -1,48 +1,47 @@
-import { useState } from "react";
-import TodoForm from "./components/Todoform";
-import TodoItems from "./components/TodoItems";
+import { useState } from 'react';
 import './assets/css/index.css';
+import TodoForm from './components/Todoform';
+import TodoItems from './components/TodoItems';
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [edit, setEdit] = useState(null); // edit modu ucun state
+  const [todos, setTodos] = useState([])
+  const [editItem, setEditItem] = useState(false)
 
-  const addTodo = (name) => {
-    setTodos([...todos, { name, id: Math.random() }]);
-  };
+  const saveTodos = (value) => {
+    setTodos((prevTodo) => [...prevTodo, { name: value, id: Math.random() }])
+  }
 
-  const updateTask = (name) => {
-    if (edit) { // edit durumu yoxla
+  const onDelete = (deletedId) => {
+    setTodos(todos.filter(todos => todos.id !== deletedId))
+  }
+  const onEdit = (editedTodo) => {
+    const findTodo = todos.find(todo => todo.id === editedTodo)
+
+    setEditItem(findTodo);
+  }
+
+  const updateTask = (editName) => {
+    if (editItem) {
       const updatedTodos = todos.map(todo => {
-        if (todo.id === edit.id) {
-          return { ...todo, name }; // Düzenlenmiş todoyu güncelle
+        if (todo.id === editItem.id) {
+          return { ...todo, name: editName }; // Update the name of the edited todo
         }
         return todo;
       });
-      setTodos(updatedTodos); // update olunmus todo listesini ayarla
-      setEdit(null); // update modunu bagla
+
+      setTodos(updatedTodos); // Set the updated todos
+      setEditItem(null); // Clear the editItem state
     }
   };
 
-  const deleteTodo = (id) => {
-    const updatedTodos = todos.filter(todo => todo.id !== id);
-    setTodos(updatedTodos);
-  };
 
-  const oneEdit = (id) => {
-    const findTodo = todos.find(todo => todo.id === id);
-
-    if (findTodo) {
-      setEdit(findTodo);
-
-    }
-  };
 
 
   return (
     <div className='w-[350px] mx-auto p-3 border rounded my-4 space-y-[10px] bg-gray-100'>
-      <TodoForm onSaveClick={addTodo} updateTask={updateTask} edit={edit} />
-      <TodoItems todos={todos} onDelete={deleteTodo} oneEdit={oneEdit} />
+      <TodoForm saveTodos={saveTodos} updateTask={updateTask} edit={editItem} />
+      <TodoItems todos={todos} onDelete={onDelete} onEdit={onEdit} />
+
     </div>
   );
 }
