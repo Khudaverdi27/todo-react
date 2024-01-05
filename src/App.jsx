@@ -40,7 +40,7 @@ function App() {
 
 
   return (
-    <div className='w-[350px] mx-auto p-3 border rounded my-4 space-y-[10px]'>
+    <div className='w-[350px] mx-auto p-3 border rounded my-4 space-y-[10px] bg-gray-100'>
       <TodoForm onSaveClick={addTodo} updateTask={updateTask} edit={edit} />
       <TodoItems todos={todos} onDelete={deleteTodo} oneEdit={oneEdit} />
     </div>
