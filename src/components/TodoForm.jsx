@@ -31,7 +31,7 @@ function TodoForm({ saveTodos, updateTask, edit }) {
 
     return (
         <><h1 className="text-center text-xl font-bold">Your Todo App</h1>
-            <form onSubmit={(e) => onSubmit(e)} className="flex space-x-[10px]">
+            <form onSubmit={(e) => onSubmit(e)} className="flex space-x-[10px] items-center">
                 <input
                     placeholder="Write your task..."
                     value={value}
@@ -42,8 +42,8 @@ function TodoForm({ saveTodos, updateTask, edit }) {
                 <button
                     disabled={!value.trim()}
                     type="submit"
-                    className={`${!value.trim() ? 'opacity-40 cursor-not-allowed' : '' // Eğer 
-                        } bg-blue-500 rounded p-2 text-white`}
+                    className='disabled:opacity-40 disabled:cursor-not-allowed 
+                         bg-blue-500 rounded p-2 text-white'
                 >
                     {isEditing ? 'Update' : 'Add'}
                 </button>

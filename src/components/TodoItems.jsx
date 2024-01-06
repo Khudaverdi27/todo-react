@@ -24,7 +24,7 @@ function TodoItems({ todos, onDelete, onEdit }) {
                 <div key={index} className={`flex justify-between items-center border p-2 bg-white ${checkedItems.includes(item.id) ? 'line-through' : ''}`}>
                     <div className="flex items-center">
                         <input type="checkbox" onChange={() => handleCheckboxChange(item.id)} />
-                        <span className='ml-1 mb-1'>{item.name}</span>
+                        <span className='ml-1'>{item.name}</span>
                     </div>
                     <div className="space-x-2">
                         <button
